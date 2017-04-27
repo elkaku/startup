@@ -4,7 +4,7 @@ document.getElementById("aButton").addEventListener("click", jokeApiConnect);
 
 function jokeApiConnect(){
 	var xhr = new XMLHttpRequest();	//creating the object
-	xhr.responseType='json'; //telling the object wich response type us going to get
+	xhr.responseType='json'; //telling the object wich response type is going to get
 
 	xhr.onreadystatechange = function(){
 		if(xhr.readyState == 4 && xhr.status == 200)
@@ -14,4 +14,17 @@ function jokeApiConnect(){
 	}
 	xhr.open("GET", "http://api.icndb.com/jokes/random", true);
 	xhr.send();		
+}
+
+function makeCall(url){
+	
+	return new Promise(function(resolve,reject)){
+		var xhr = new new XMLHttpRequest();
+		xhr.open('GET', url);
+
+		xhr.onload = function(){
+			
+		}
+
+	}
 }
