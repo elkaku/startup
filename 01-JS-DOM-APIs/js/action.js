@@ -1,8 +1,8 @@
-/*Button function*/
+/*Exercise 6 - Button function*/
 
-document.getElementById("aButton").addEventListener("click", jokeApiConnect);
+document.getElementById("aButton").addEventListener("click", ApiConnect);
 
-function jokeApiConnect(){
+function ApiConnect(){
 	const xhr = new XMLHttpRequest();	//creating the object
 	xhr.responseType='json'; //telling the object wich response type is going to get
 
@@ -12,7 +12,7 @@ function jokeApiConnect(){
 			document.getElementById("mainSection").innerHTML=xhr.response.value.joke; //accesing and showing the JSON object
 		}
 	}
-	xhr.open("GET", "http://api.icndb.com/jokes/random", true);
+	xhr.open("GET","http://api.icndb.com/jokes/random", true);
 	xhr.send();		
 }
 
@@ -60,7 +60,7 @@ const getDataAndPrint = (configObject) => { //main function, recevies the config
 	  })
 	  .catch(() => {
 	    printHtmlData("error", "Request Error");  //in case of failure (I.E: url not found), prints the request error message
-	    document.getElementById('mainSection').style.background = "Red";
+	    document.getElementById('mainSection').style.background = "Red"; //how do i target all section elements? (Exercise 8)
 	  });  
 }
 
@@ -81,3 +81,28 @@ const configFail = {
 };
 
 /*End of exercise 7*/
+
+/*Exercise 9*/
+
+const repoUrl = {
+	url:"https://api.github.com/search/repositories?q=JavaScript"
+}
+
+const getRepos = () => {
+	getRepoAndPrint(repoUrl);
+}
+
+const getRepoAndPrint = (configObject) => { //main function, recevies the config and calls the others
+  printHtmlData("joke", "");	//clears the html elements by ID
+  printHtmlData("error", "");
+  
+	makeCall(configObject) //calls the connection function
+	  .then(result => {
+	    const data = JSON.parse(result); //how does it knows the response?
+	    printHtmlData("repos", data.items[0].full_name);  //assings response JSON to data and calls the print function
+	  })
+	  .catch(() => {
+	    printHtmlData("error", "Request Error");  //in case of failure (I.E: url not found), prints the request error message
+	    document.getElementById('mainSection').style.background = "Red"; //how do i target all section elements? (Exercise 8)
+	  });  
+}
