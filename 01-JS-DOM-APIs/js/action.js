@@ -60,6 +60,7 @@ const getDataAndPrint = (configObject) => { //main function, recevies the config
 	  })
 	  .catch(() => {
 	    printHtmlData("error", "Request Error");  //in case of failure (I.E: url not found), prints the request error message
+	    document.getElementById('mainSection').style.background = "Red";
 	  });  
 }
 
