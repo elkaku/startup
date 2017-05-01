@@ -1,8 +1,5 @@
 /*Exercise 6 - Button function*/
-
-document.getElementById("aButton").addEventListener("click", ApiConnect);
-
-function ApiConnect(){
+function apiConnect(){
 	const xhr = new XMLHttpRequest();	//creating the object
 	xhr.responseType='json'; //telling the object wich response type is going to get
 
@@ -93,16 +90,30 @@ const getRepos = () => {
 }
 
 const getRepoAndPrint = (configObject) => { //main function, recevies the config and calls the others
-  printHtmlData("joke", "");	//clears the html elements by ID
-  printHtmlData("error", "");
-  
-	makeCall(configObject) //calls the connection function
+  	makeCall(configObject) //calls the connection function
 	  .then(result => {
 	    const data = JSON.parse(result); //how does it knows the response?
-	    printHtmlData("repos", data.items[0].full_name);  //assings response JSON to data and calls the print function
+	    for (let i = data.items.length - 1; i >= 0; i--) {
+	    	let list = "<ul>" + data.items[i].full_name +"</ul>";
+	    	document.getElementById("repos").innerHTML += list;
+	    }
+	    //$("#repos").text(data.items.full_name);
 	  })
 	  .catch(() => {
 	    printHtmlData("error", "Request Error");  //in case of failure (I.E: url not found), prints the request error message
 	    document.getElementById('mainSection').style.background = "Red"; //how do i target all section elements? (Exercise 8)
-	  });  
+	  });
 }
+
+/*Exercise 10*/
+
+const repoQuery = {
+	url: "https://api.github.com/search/repositories?q=" + document.getElementById("txt_query").value
+}
+
+const getReposByQuery = () => {
+	getRepoAndPrint(repoQuery);
+}	
+
+
+
