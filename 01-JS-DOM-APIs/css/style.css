@@ -1,5 +1,10 @@
-.section-list{ 
+section{ 
 	text-align: center;
+}
+
+aside{
+	position: relative;
+	float: right;
 }
 
 /*centers the field and adds a 2secs animation*/

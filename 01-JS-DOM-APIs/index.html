@@ -5,23 +5,48 @@
 		<meta charset="utf-8" />
 		<link href="css/normalize.css" rel="stylesheet"/>
 		<link href="css/style.css" rel="stylesheet"/>
-		<title>HTML and CSS</title>
+		
+		<title>Topic 1</title>
 	</head>
 
 	<body>
+		<aside id="repos"></aside>
+
 		<section id="mainSection" class="section-list">
 			<h1>Lorem:</h1>
 				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas nec vestibulum lorem. Vestibulum eu lacus eget mauris tincidunt faucibus lobortis aliquam libero. Duis semper scelerisque purus, ut faucibus turpis scelerisque at. Quisque at orci pellentesque, sagittis elit eget, vestibulum enim. Donec vestibulum cursus accumsan. Proin nec tincidunt felis. Aenean vestibulum felis pellentesque mauris luctus, non iaculis nibh auctor. Proin urna velit, convallis malesuada metus sit amet, laoreet bibendum ante. Sed vel lectus mauris. Etiam dignissim urna ut hendrerit tempus. </p>
 		</section>
 
 		<section class="section-hide">			
-				<p>Hello world</p>
+				<p>Hello world</p>				
 		</section>
 
-		<button id= "aButton">A button</button>
+		<section>
+			<br><button id= "aButton" onclick="apiConnect()">Change paragraph content</button>
+		</section>
+
+		<section>
+			<br><button onclick="getJoke()">Get Joke</button>
+			<div id="joke"></div>
+			<br><button onclick="getJokeWIthError()">Get Joke With Error</button>			
+			<div id="error"></div>
+		</section>
+
+		<section>
+			<br><button onclick="getRepos()">Get JavaScript repos</button>
+		</section>
+
+		<section>
+			<br><input type="text" name="repoQuery" id="txt_query"><button onclick="getReposByQuery()">Get repos by query</button>
+		</section>
+
+		<section>
+			<br><button onclick="getTableFromRepo()">Get repos in a table</button>			
+		</section>
 
 		<script src="js/action.js"></script>
-
 	</body>
-
+	<footer>
+		
+	</footer>
 </html>
