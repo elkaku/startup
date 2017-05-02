@@ -97,7 +97,6 @@ const getRepoAndPrint = (configObject) => { //main function, recevies the config
 	    	let list = "<ul>" + data.items[i].full_name +"</ul>";
 	    	document.getElementById("repos").innerHTML += list;
 	    }
-	    //$("#repos").text(data.items.full_name);
 	  })
 	  .catch(() => {
 	    printHtmlData("error", "Request Error");  //in case of failure (I.E: url not found), prints the request error message
@@ -113,4 +112,31 @@ const repoQuery = {
 
 const getReposByQuery = () => {
 	getRepoAndPrint(repoQuery);
+}
+
+/*Exercise 12*/
+
+const getTableFromRepo = () => {
+	printTable(repoUrl); // using the same JSON from exercise 9
+}
+
+const printTable = (configObject) => {
+  	makeCall(configObject)
+		.then(result => {
+			createTable(JSON.parse(result));
+		})	
+		.catch(() => {
+		printHtmlData("error", "Request Error");  
+		document.getElementById('mainSection').style.background = "Red";
+		});
+}
+
+function createTable(data){
+		document.createElement("table");
+	for (let i = data.items.length - 1; i >= 0; i--) {
+		let cell = document.createElement("td");
+		let content = document.createTextNode(data.items[i].full_name);
+		cell.appendChild(content);
+		document.body.appendChild(cell);
+	}
 }
