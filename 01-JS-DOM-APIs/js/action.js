@@ -108,12 +108,9 @@ const getRepoAndPrint = (configObject) => { //main function, recevies the config
 /*Exercise 10*/
 
 const repoQuery = {
-	url: "https://api.github.com/search/repositories?q=" + document.getElementById("txt_query").value
+	url: "https://api.github.com/search/repositories?q=" + document.getElementById("txt_query").value //not working, idk why
 }
 
 const getReposByQuery = () => {
 	getRepoAndPrint(repoQuery);
-}	
-
-
-
+}
