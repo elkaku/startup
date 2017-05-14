@@ -1,115 +1,105 @@
+class Movie{  
+  constructor(title, year, duration){
+    this.title = title
+    this.year = year
+    this.duration = duration
+  }
+}
+
 class MovieElement extends React.Component {
    render() {
      return (
-      <div>
-        <li>Title: {this.props.title}   Duration: {this.props.duration}   Year: {this.props.year} </li>
-        <button onClick={()=> this.props.editMovie(this.props.index)}>Edit</button>
-        <button onClick={()=> this.props.deleteMovie(this.props.index)}>Remove</button>
-      </div>   
+        <span>Title: {this.props.title}   Duration: {this.props.duration}   Year: {this.props.year} </span>
       )
     }
  }
 
-class AddMovie extends React.Component {
-  
-  constructor(){
-    super(),
+class MovieApp extends React.Component{  
+  constructor(props){
+    super(props);
     this.state = {
       title: '',
       year: '',
-      duration: ''
-    }
+      duration: '',
+
+      movieList : []      
+    }  
 
     this.titleOnChange = this.titleOnChange.bind(this)
     this.yearOnChange = this.yearOnChange.bind(this)
     this.durationOnChange = this.durationOnChange.bind(this)
-    this.handleAdd = this.handleAdd.bind(this)
+    this.addMovieToList = this.addMovieToList.bind(this)
+    this.editMovie = this.editMovie.bind(this)
+    this.deleteMovie = this.deleteMovie.bind(this)
+    
   }
 
-  handleAdd(event){
-    event.preventDefault();
-    let newMovie = new Movie(event.target.title.value, event.target.title.value,event.target.duration.value)
-    this.props.addMovieToList(newMovie)
-  }
-
-  titleOnChange(){
-    let title = this.setState({
+  titleOnChange(event){
+    this.setState({
       title: event.target.value
     })
   }
 
-  yearOnChange(){
+  yearOnChange(event){
     this.setState({
       year: event.target.value
     })
   }
 
-  durationOnChange (){
+  durationOnChange (event){
     this.setState({
       duration: event.target.value
     })
   }
-  
-  render (){
-    return(
-      <form className ="addMovieForm" onSubmit = {this.handleAdd}>
-        <span> Title </span><input id = "title" type ='text'onChange={this.titleOnChange}/>
-        <span> Year </span><input id = "year" type ='number'onChange={this.yearOnChange}/>
-        <span> Duration </span><input id = "duration" type ='number'onChange={this.durationOnChange}/>
-        <input type="Submit" value="Add new movie"/>
-      </form>
-      )
-  }
-}
 
-class MovieApp extends React.Component{  
-  constructor(){    
-    super();
-    this.state = {
-      title:'',
-      year:'',
-      duration:'',
+  submitOnChange(event){
 
-      movieList : [
-      {title:"Chuck norris",year: 1985, duration: 125},
-      {title:"Sharknado",year: 2014, duration: 114}, 
-      {title:"Twister",year: 2002, duration: 98}
-      ]      
-    }
-
-    //this.addMovieToList = this.addMovieToList.bind(this)
-  }  
-  
-  handleAddClick() {
-    return (<AddMovie/>)
   }
 
-  addMovieToList(movie){
-      this.state.movieList.push(movie)
+  addMovieToList(event){
+    event.preventDefault()
+    let movie = new Movie(this.state.title,this.state.year,this.state.duration)
+    this.state.movieList.push(movie)
+    this.setState  ({
+      movieList: this.state.movieList
+    })
   }
 
   editMovie(){
 
   }
 
-  deleteMovie(){
+  deleteMovie(index){
+    this.state.movieList.splice(index,1)
+    this.setState({
+      movieList: this.state.movieList
+    })
     alert("Movie erased")
   }
       
   render () {
-    //console.log(this.state.movieList)
     return(
       <section className="movieApp">        
-        <button onClick= {this.handleAddClick}>Add Movie</button>
-        <AddMovie/>
-        <div>          
+        <div>
+          <form className ="addMovieForm" onSubmit = {this.addMovieToList}>
+            <span> Title </span><input id = "title" type ='text' onChange={this.titleOnChange} value={this.state.title}/>
+            <span> Year </span><input id = "year" type ='number' onChange={this.yearOnChange} value={this.state.year}/>
+            <span> Duration </span><input id = "duration" type ='number' onChange={this.durationOnChange} value={this.state.duration}/>
+            <input type="Submit" value = "Add movie" onChange={this.submitOnChange}/>
+          </form>
+        </div>
+        <div>
           <ul>
             {this.state.movieList.map((movie, index) => {
               return (
+                <li>
                 <MovieElement key={index} title={movie.title} year={movie.year} duration={movie.duration}/>
+                <button onClick={()=> this.editMovie}>Edit</button>
+                <button onClick={()=> this.deleteMovie(index)}>Remove</button>
+                </li>
               )
             })}
-          </ul>          
+          </ul>      
         </div>
       </section>      
     )
@@ -120,11 +110,3 @@ ReactDOM.render(
   <MovieApp />,
   document.getElementById('root')
 );
-
-class Movie{  
-  constructor(title, year, duration){
-    this.title = title
-    this.year = year
-    this.duration = duration
-  }
-}
