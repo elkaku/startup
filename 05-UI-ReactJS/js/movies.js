@@ -22,17 +22,52 @@ class MovieApp extends React.Component{
       year: '',
       duration: '',
 
-      movieList : []      
-    }  
+      editTitle: '',
+      editYear: '',
+      editDuration: '',
+      editForm: 'none',
 
+      movieList : []      
+    } 
+    
     this.titleOnChange = this.titleOnChange.bind(this)
     this.yearOnChange = this.yearOnChange.bind(this)
     this.durationOnChange = this.durationOnChange.bind(this)
+    this.submitOnChange = this.submitOnChange.bind(this)
+
+    this.titleEditOnChange = this.titleEditOnChange.bind(this)
+    this.yearEditOnChange = this.yearEditOnChange.bind(this)
+    this.durationEditOnChange = this.durationEditOnChange.bind(this)
+    this.submitEditOnChange = this.submitEditOnChange.bind(this)
+
     this.addMovieToList = this.addMovieToList.bind(this)
     this.editMovie = this.editMovie.bind(this)
     this.deleteMovie = this.deleteMovie.bind(this)
+    this.showEdit = this.showEdit.bind(this)
     
   }
+  
+  titleEditOnChange(event){
+    this.setState({
+      editTitle: event.target.value
+    })
+  }
+
+  yearEditOnChange(event){
+    this.setState({
+      editYear: event.target.value
+    })
+  }
+
+  durationEditOnChange (event){
+    this.setState({
+      editDuration: event.target.value
+    })
+  }
+
+  submitEditOnChange(event){
+
+  }  
 
   titleOnChange(event){
     this.setState({
@@ -65,8 +100,13 @@ class MovieApp extends React.Component{
     })
   }
 
-  editMovie(){
-
+  editMovie(index){
+    let movie = new Movie(this.state.editTitle,this.state.editYear,this.state.editDuration)
+    this.state.movieList.splice(index,1,movie)
+    this.setState({
+      movieList: this.state.movieList
+    })
+    alert("Movie editted")
   }
 
   deleteMovie(index){
@@ -75,8 +115,14 @@ class MovieApp extends React.Component{
       movieList: this.state.movieList
     })
     alert("Movie erased")
+  } 
+  
+  showEdit(){
+    this.setState({
+      editForm: ''
+    })
   }
-      
+
   render () {
     return(
       <section className="movieApp">        
@@ -93,9 +139,15 @@ class MovieApp extends React.Component{
             {this.state.movieList.map((movie, index) => {
               return (
                 <li>
-                <MovieElement key={index} title={movie.title} year={movie.year} duration={movie.duration}/>
-                <button onClick={()=> this.editMovie}>Edit</button>
-                <button onClick={()=> this.deleteMovie(index)}>Remove</button>
+                  <MovieElement key={index} title={movie.title} year={movie.year} duration={movie.duration}/>
+                  <button onClick={()=> this.deleteMovie(index)}>Remove</button>
+                  <button onClick={this.showEdit}>Edit</button>
+                    <div style={{display: this.state.editForm}}>
+                      <span> New title </span><input id = "editTitle" type ='text' onChange={this.titleEditOnChange} value={this.state.editTitle}/>
+                      <span> New year </span><input id = "editYear" type ='number' onChange={this.yearEditOnChange} value={this.state.editYear}/>
+                      <span> New duration </span><input id = "editDuration" type ='number' onChange={this.durationEditOnChange} value={this.state.editDuration}/>
+                      <button value = "Edit Movie" onClick={()=>this.editMovie(index)}>Edit movie</button>                      
+                    </div>
                 </li>
               )
             })}
